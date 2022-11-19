@@ -65,3 +65,22 @@ While we won't give you the exact prompt ahead of time, our general recommendati
 ## Closing Thoughts
 
 We very much look forward to meeting you. Our goal is to make interviewers feel comfortable and prepared, so always feel free to reach out to your recruiter if you have any questions. Afterward, we welcome any and all feedback. We're constantly iterating and improving this process, and anything you share will help us make our interviews better for future candidates.
+
+=====================================================================
+
+
+Request:   ( Mandatory Fields)
+
+date of order,amount,NoOfInstallment,Frequency 
+
+Response : 
+
+PaymentPlan Object
+
+====================================================================
+
+Any mismatch details  it will throw status code as 400.
+
+On any exception it will  be throwing response code as 500
+
+
