@@ -1,10 +1,13 @@
+
 using FluentAssertions;
 using InstallmentServices.Controllers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Moq;
+using System.Net;
 using Zip.InstallmentsService;
-
+using Zip.InstallmentsService.Model;
 
 namespace InstallmentServiceUnit
 {
@@ -12,15 +15,16 @@ namespace InstallmentServiceUnit
     public class InstallServicecontrollerTests
     {
 
-        InstallmentServiceController obj;
-        Mock<PaymentPlanFactory> mockFactory;
+        InstallmentServiceController controller;
+        Mock<IPlaymentPlanFactory> mockFactory;
         InstallServiceRequest req;
+        Mock<ILogger> _log;
 
 
        [TestInitialize]
         public void Setup()
         {
-            obj = new InstallmentServiceController();
+           
             req = new InstallServiceRequest
             {
                 NoOfInstallment = 4,
@@ -28,9 +32,14 @@ namespace InstallmentServiceUnit
                 DateofOrder = System.DateTime.Now,
                 Frequencty = 15
             };
-          
-            mockFactory = new Mock<PaymentPlanFactory>();
-            mockFactory.Setup(x => x.CreatePaymentPlan(req)).Returns(It.IsAny<PaymentPlan>());
+            _log = new Mock<ILogger>();
+            mockFactory = new Mock<IPlaymentPlanFactory>();
+            controller = new InstallmentServiceController(mockFactory.Object, _log.Object);
+
+            mockFactory = new Mock<IPlaymentPlanFactory>();
+           // mockupdateBL.Setup(m => m.Update(It.IsAny<UpdateRequest>())).Returns(new List<string>());
+
+            mockFactory.Setup(x => x.CreatePaymentPlan(It.IsAny<InstallServiceRequest>())).Returns((PaymentPlan)It.IsAny<object>());
                 
 
         }
@@ -44,24 +53,47 @@ namespace InstallmentServiceUnit
         public void ReturnBadRequestWhenRequestNull()
         {
             req = null;
-            IActionResult response = obj.InstallmentService(req);          
-            response.Should().Be(StatusCodes.Status400BadRequest);
+             var actionResult = controller.InstallmentService(req);
+            actionResult.Should().BeOfType<ObjectResult>();
+
+            var statusCode = (HttpStatusCode)((ObjectResult)actionResult).StatusCode;
+            statusCode.Should().Be(HttpStatusCode.BadRequest);
+
+            var actualResponse = (ErrorResponse)((ObjectResult)actionResult).Value;
+            actualResponse.Errors.Count.Should().Be(1);
+            actualResponse.Errors[0].title.Should().Be("Request is null");
+
+
         }
 
         [TestMethod]
         public void ReturnBadRequestWhenAmountZero()
         {
             req.Amount =0;
-            IActionResult response = obj.InstallmentService(req);
-            response.Should().Be(StatusCodes.Status400BadRequest);
+            var actionResult = controller.InstallmentService(req);
+            actionResult.Should().BeOfType<ObjectResult>();
+
+            var statusCode = (HttpStatusCode)((ObjectResult)actionResult).StatusCode;
+            statusCode.Should().Be(HttpStatusCode.BadRequest);
+
+            var actualResponse = (ErrorResponse)((ObjectResult)actionResult).Value;
+            actualResponse.Errors.Count.Should().Be(1);
+            actualResponse.Errors[0].title.Should().Be("Invalid Amount is entered");
         }
 
         [TestMethod]
         public void ReturnBadRequestWhenAmountLessThenZero()
         {
             req.Amount = -100;
-            IActionResult response = obj.InstallmentService(req);
-            response.Should().Be(StatusCodes.Status400BadRequest);
+            var actionResult = controller.InstallmentService(req);
+            actionResult.Should().BeOfType<ObjectResult>();
+
+            var statusCode = (HttpStatusCode)((ObjectResult)actionResult).StatusCode;
+            statusCode.Should().Be(HttpStatusCode.BadRequest);
+
+            var actualResponse = (ErrorResponse)((ObjectResult)actionResult).Value;
+            actualResponse.Errors.Count.Should().Be(1);
+            actualResponse.Errors[0].title.Should().Be("Invalid Amount is entered");
         }
 
 
@@ -70,35 +102,41 @@ namespace InstallmentServiceUnit
         public void ReturnBadRequestWhenFrequencyyZero()
         {
             req.Frequencty =0;
-            IActionResult response = obj.InstallmentService(req);
-            response.Should().Be(StatusCodes.Status400BadRequest);
+            var actionResult = controller.InstallmentService(req);
+            actionResult.Should().BeOfType<ObjectResult>();
+
+            var statusCode = (HttpStatusCode)((ObjectResult)actionResult).StatusCode;
+            statusCode.Should().Be(HttpStatusCode.BadRequest);
+
+            var actualResponse = (ErrorResponse)((ObjectResult)actionResult).Value;
+            actualResponse.Errors.Count.Should().Be(1);
+            actualResponse.Errors[0].title.Should().Be("Input Frequenty is entered");
         }
 
         [TestMethod]
         public void ReturnBadRequestWhenFrequencyLessThenZero()
         {
             req.Frequencty = -100;
-            IActionResult response = obj.InstallmentService(req);
+            var actionResult = controller.InstallmentService(req);
+            actionResult.Should().BeOfType<ObjectResult>();
 
-            //ObjectResult objectResponse = Assert.IsType<ObjectResult>(response);
+            var statusCode = (HttpStatusCode)((ObjectResult)actionResult).StatusCode;
+            statusCode.Should().Be(HttpStatusCode.BadRequest);
 
-            ////Assert.AreEqual(400, response.StatusCode);
-            //Assert.IsInstanceOfType(result, typeof(JsonResult));
-
-
-            //Assert.Equal(200, objectResponse.StatusCode);
-
-
-            response.Should().Be(StatusCodes.Status400BadRequest);
+            var actualResponse = (ErrorResponse)((ObjectResult)actionResult).Value;
+            actualResponse.Errors.Count.Should().Be(1);
+            actualResponse.Errors[0].title.Should().Be("Input Frequenty is entered");
         }
 
         [TestMethod]
         public void ReturnSuccess()
         {
-            IActionResult response = obj.InstallmentService(req);
-            //ObjectResult objectResponse = Assert.IsType<ObjectResult>(response);
-            //Assert.Equal(200, objectResponse.StatusCode);
-            response.Should().Be(StatusCodes.Status200OK);
+            var actionResult = controller.InstallmentService(req);
+           
+            var statusCode = (HttpStatusCode)((ObjectResult)actionResult).StatusCode;
+            statusCode.Should().Be(HttpStatusCode.OK);
+
+           
         }
 
 

@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="6.8.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
     <PackageReference Include="Moq" Version="4.18.2" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.2.8" />
@@ -19,7 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\InstallmentServices\Zip.InstallmentServices.csproj" />
-    <ProjectReference Include="..\Zip.InstallmentsService\Zip.InstallmentsService.csproj" />
+    <ProjectReference Include="..\Zip.InstallmentsService\Zip.InstallmentsService.Model.csproj" />
   </ItemGroup>
 
 </Project>

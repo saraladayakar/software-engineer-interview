@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Zip.InstallmentsService
+namespace Zip.InstallmentsService.Model
 {
     public class InstallServiceRequest
     {

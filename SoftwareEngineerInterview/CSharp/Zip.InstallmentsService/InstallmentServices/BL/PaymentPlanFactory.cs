@@ -1,4 +1,5 @@
 using System;
+using Zip.InstallmentsService.Model;
 
 namespace Zip.InstallmentsService
 {
@@ -12,6 +13,20 @@ namespace Zip.InstallmentsService
         /// </summary>
         /// <param name="purchaseAmount">The total amount for the purchase that the customer is making.</param>
         /// <returns>The PaymentPlan created with all properties set.</returns>
+
+
+
+        private ILogger log;
+       
+
+        public PaymentPlanFactory(ILogger _log)
+        {
+          
+            log = _log;
+
+        }
+
+
         public PaymentPlan CreatePaymentPlan(InstallServiceRequest request)
         {
             // TODO

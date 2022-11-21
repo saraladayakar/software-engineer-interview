@@ -2,17 +2,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zip.InstallmentsService", "Zip.InstallmentsService\Zip.InstallmentsService.csproj", "{E7F1FB5D-5D7B-49D1-8F44-C31B60A7E1DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zip.InstallmentsService.Model", "Zip.InstallmentsService\Zip.InstallmentsService.Model.csproj", "{E7F1FB5D-5D7B-49D1-8F44-C31B60A7E1DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zip.InstallmentServices", "InstallmentServices\Zip.InstallmentServices.csproj", "{FE4B7AA2-016F-4B02-8323-1E0C99EA3382}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zip.InstallmentServices", "InstallmentServices\Zip.InstallmentServices.csproj", "{FE4B7AA2-016F-4B02-8323-1E0C99EA3382}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InstallmentServiceUnit", "InstallmentServiceUnit\InstallmentServiceUnit.csproj", "{635B1AC6-8CF0-4334-B28C-B1C05CFF3693}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InstallmentServiceUnit", "InstallmentServiceUnit\InstallmentServiceUnit.csproj", "{635B1AC6-8CF0-4334-B28C-B1C05CFF3693}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{E8C746D1-E208-401C-9E8D-B404D50640D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InstallServiceFunctionalTest", "InstallServiceFunctionalTest\InstallServiceFunctionalTest.csproj", "{07DB5A70-2787-4555-9561-EF9A401C4405}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InstallServiceFunctionalTest", "InstallServiceFunctionalTest\InstallServiceFunctionalTest.csproj", "{07DB5A70-2787-4555-9561-EF9A401C4405}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InstallServiceIntegrationTest", "InstallServiceIntegrationTest\InstallServiceIntegrationTest.csproj", "{D58004D7-11B4-486F-ADAC-62909EEFCEA0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InstallServiceIntegrationTest", "InstallServiceIntegrationTest\InstallServiceIntegrationTest.csproj", "{D58004D7-11B4-486F-ADAC-62909EEFCEA0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zip.InstallmentServices.Repository", "Zip.InstallmentServices.Repository\Zip.InstallmentServices.Repository.csproj", "{1CDC006E-9367-4FA9-B1D9-7940E892F471}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -84,6 +86,18 @@ Global
 		{D58004D7-11B4-486F-ADAC-62909EEFCEA0}.Release|x64.Build.0 = Release|Any CPU
 		{D58004D7-11B4-486F-ADAC-62909EEFCEA0}.Release|x86.ActiveCfg = Release|Any CPU
 		{D58004D7-11B4-486F-ADAC-62909EEFCEA0}.Release|x86.Build.0 = Release|Any CPU
+		{1CDC006E-9367-4FA9-B1D9-7940E892F471}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CDC006E-9367-4FA9-B1D9-7940E892F471}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CDC006E-9367-4FA9-B1D9-7940E892F471}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1CDC006E-9367-4FA9-B1D9-7940E892F471}.Debug|x64.Build.0 = Debug|Any CPU
+		{1CDC006E-9367-4FA9-B1D9-7940E892F471}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1CDC006E-9367-4FA9-B1D9-7940E892F471}.Debug|x86.Build.0 = Debug|Any CPU
+		{1CDC006E-9367-4FA9-B1D9-7940E892F471}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CDC006E-9367-4FA9-B1D9-7940E892F471}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CDC006E-9367-4FA9-B1D9-7940E892F471}.Release|x64.ActiveCfg = Release|Any CPU
+		{1CDC006E-9367-4FA9-B1D9-7940E892F471}.Release|x64.Build.0 = Release|Any CPU
+		{1CDC006E-9367-4FA9-B1D9-7940E892F471}.Release|x86.ActiveCfg = Release|Any CPU
+		{1CDC006E-9367-4FA9-B1D9-7940E892F471}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

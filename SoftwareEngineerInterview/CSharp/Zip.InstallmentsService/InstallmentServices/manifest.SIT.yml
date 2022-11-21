@@ -1,0 +1,15 @@
+﻿#################################
+# Use DEV for code exploration. #
+#################################
+applications:
+  - name: InstallmentServices
+    instances: 1
+    memory: 512M
+    routes:
+      - route: InstallmentServices-dev.pcf.dell.com
+    
+    env:
+       Auth__Enabled: 'true'
+       Authority: ''
+       Audiences: ''
+       Scope: ''

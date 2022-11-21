@@ -1,67 +1,85 @@
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
+using Zip.InstallmentServices.Validation;
 using Zip.InstallmentsService;
+using Zip.InstallmentsService.Model;
 
 namespace InstallmentServices.Controllers
 {
+    
+    [Route("Api/v{version:apiVersion}/[controller]")]
     [ApiController]
-    [Route("[controller]")]
+    [ApiVersion("1.0")]
     public class InstallmentServiceController : ControllerBase
     {
-    //    private static readonly string[] Summaries = new[]
-    //    {
-    //    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    //};
+        //    private static readonly string[] Summaries = new[]
+        //    {
+        //    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+        //};
 
-    //    private readonly ILogger<WeatherForecastController> _logger;
+        //    private readonly ILogger<WeatherForecastController> _logger;
 
-    //    public WeatherForecastController(ILogger<WeatherForecastController> logger)
-    //    {
-    //        _logger = logger;
-    //    }
+        //    public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        //    {
+        //        _logger = logger;
+        //    }
+
+        private ILogger log;
+        private readonly IPlaymentPlanFactory updateBL;
+
+        public InstallmentServiceController(IPlaymentPlanFactory bl, ILogger _log)
+        {
+            updateBL = bl;
+            log = _log;
+            
+        }
+
+
+
 
         [HttpPost]
         [Route("[InstallmentServiceDetails]")]
-        public IActionResult InstallmentService(InstallServiceRequest request)
+         public IActionResult InstallmentService([FromBody] InstallServiceRequest request)
         {          
             //Validating the reqest
-            List<string> str = ValidateRequest(request);
+           var str = ValidateRequest(request);
+
             if (str.Count > 0)
             {
-                return BadRequest("Provided input is not in the correct format" + str);
-            }
-            PaymentPlanFactory obj = new PaymentPlanFactory();
-            PaymentPlan responseObj = new PaymentPlan();
+                var errorResponse = new ErrorResponse();
+                errorResponse.Errors = str;
+                return StatusCode((int)HttpStatusCode.BadRequest, errorResponse);
+            }                      
+         
+            var responseObj = updateBL.CreatePaymentPlan(request);
 
-            responseObj =obj.CreatePaymentPlan(request);
-          
             return Ok(responseObj);
         }
 
 
-        private List<string> ValidateRequest(InstallServiceRequest request)
+        private List<ErrorDetails> ValidateRequest(InstallServiceRequest request)
         {
-            List<string> validateErr = new List<string>();
+            var validateErr = new List<ErrorDetails>();
 
-            if (request == null)
-            {
-                validateErr.Add("Provided reques is Empty");
-            }
+            if (null == request)
+                Helper.BuildContent(validateErr, ValidationError.RequestEmptyError);
 
             else
             {
                 if (request.Amount <= 0)
                 {
-                    validateErr.Add("Provided Amount is wrong");
+                    Helper.BuildContent(validateErr, ValidationError.InvalidAmountError);
                 }
 
                 if (request.Frequencty <= 0)
                 {
-                    validateErr.Add("Wrong Frequencty is entered");
+                    Helper.BuildContent(validateErr, ValidationError.InvalidFreqeuncyError);
                 }
 
                 if (request.NoOfInstallment <= 0)
                 {
-                    validateErr.Add("Wrong NoOfInstallment is entered");
+                    Helper.BuildContent(validateErr, ValidationError.InvalidNoOfInstallmentError);
                 }
             }
 
