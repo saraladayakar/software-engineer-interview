@@ -1,4 +1,3 @@
-using System;
 using Zip.InstallmentsService.Model;
 
 namespace Zip.InstallmentsService
@@ -29,24 +28,32 @@ namespace Zip.InstallmentsService
 
         public PaymentPlan CreatePaymentPlan(InstallServiceRequest request)
         {
-            // TODO
+            PaymentPlan responseObj = new PaymentPlan();
             try
             {
-                PaymentPlan responseObj = new PaymentPlan();
-
                 responseObj.Id = Guid.NewGuid();
                 responseObj.PurchaseAmount = request.Amount;
-
-                Installment[] installment = new Installment[request.Frequencty];
-
+                Installment[] installment = new Installment[request.NoOfInstallment];
 
                 var finalAmount = request.Amount / request.NoOfInstallment;
 
-                for (int j = 1; j <= request.Frequencty; j++)
+                DateTime due = request.DateofOrder;
+
+                for (int j = 0; j < request.NoOfInstallment; j++)
                 {
-                    installment[j].Id = Guid.NewGuid();
-                    installment[j].Amount = finalAmount;
-                    installment[j].DueDate = request.DateofOrder.AddDays(request.Frequencty);
+                    Installment installmentObj = new Installment();
+                    installmentObj.Id = Guid.NewGuid();
+                    installmentObj.Amount = finalAmount;
+                    installmentObj.Amount = finalAmount;
+                    if (j==0)
+                        installmentObj.DueDate = due;
+                    else
+                    {
+                        installmentObj.DueDate = due.AddDays(request.Frequencty);
+                        due = installmentObj.DueDate;
+                    }
+
+                    installment[j]= installmentObj;
                 }
                 responseObj.Installments = installment;
 
@@ -54,7 +61,7 @@ namespace Zip.InstallmentsService
 
             } catch (Exception ex)
             {
-
+                responseObj = null;
                 throw;
             }
            

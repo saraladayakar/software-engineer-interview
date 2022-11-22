@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Zip.InstallmentServices.Validation;
@@ -7,7 +6,7 @@ using Zip.InstallmentsService.Model;
 
 namespace InstallmentServices.Controllers
 {
-    
+
     [Route("Api/v{version:apiVersion}/[controller]")]
     [ApiController]
     [ApiVersion("1.0")]
@@ -53,6 +52,12 @@ namespace InstallmentServices.Controllers
             }                      
          
             var responseObj = updateBL.CreatePaymentPlan(request);
+
+            if (responseObj == null)
+            {
+                return StatusCode((int)HttpStatusCode.UnprocessableEntity, "Exception on Calculating Installment");
+
+            }
 
             return Ok(responseObj);
         }

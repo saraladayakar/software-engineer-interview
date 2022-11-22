@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace Zip.InstallmentsService.Model
 {
@@ -12,5 +13,10 @@ namespace Zip.InstallmentsService.Model
 		public decimal PurchaseAmount { get; set; }
 
         public Installment[] Installments { get; set; }
+
+        public static explicit operator ObjectResult(PaymentPlan v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

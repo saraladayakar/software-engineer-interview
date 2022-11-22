@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentAssertions;
-using InstallmentServices.Controllers;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Zip.InstallmentsService;
@@ -18,8 +10,7 @@ namespace InstallmentServiceUnit
     public  class InstallServiceBLTests
     {
 
-        IPlaymentPlanFactory paymentPlanFacBL;
-        //Mock<IPlaymentPlanFactory> mockFactory;
+        IPlaymentPlanFactory paymentPlanFacBL;       
         InstallServiceRequest req;
         Mock<ILogger> _log;
         PaymentPlan paymentPlan;
@@ -28,7 +19,7 @@ namespace InstallmentServiceUnit
         [TestInitialize]
         public void Setup()
         {
-           // controllerObj = new InstallmentServiceController();
+           
             req = new InstallServiceRequest
             {
                 NoOfInstallment = 4,
@@ -42,15 +33,15 @@ namespace InstallmentServiceUnit
             paymentPlanFacBL = new PaymentPlanFactory(_log.Object);
 
             paymentPlan = new PaymentPlan();
+            Installment installmentDet = new Installment();
 
-            Installment installObj = new Installment();
-            installObj.Id = Guid.NewGuid();
-            installObj.DueDate = System.DateTime.Now;
-            installObj.Amount = 1000;
+            installmentDet.Id = Guid.NewGuid();
+            installmentDet.DueDate = System.DateTime.Now;
+            installmentDet.Amount = 1000;            Installment[] installments = { installmentDet };
 
+            paymentPlan.Installments = installments;
             paymentPlan.Id  = Guid.NewGuid();
-            paymentPlan.PurchaseAmount = 4;
-            paymentPlan.Installments[0] = installObj;
+            paymentPlan.PurchaseAmount = 4;           
 
         }
 
@@ -63,15 +54,16 @@ namespace InstallmentServiceUnit
 
 
         [TestMethod]
-        public void ReturnBadRequestWhenRequestNull()
+        public void ReturnOKRequestWhenRequestIsProper()
         {
-            var response = paymentPlanFacBL.CreatePaymentPlan(req);
-            //ObjectResult objectResponse = Assert.IsType<ObjectResult>(response);
-            //Assert.Equal(200, objectResponse.StatusCode);
-            response.Should().Be(StatusCodes.Status200OK);
-            response.Should().Be(paymentPlan);
-            
+            var actionResult = paymentPlanFacBL.CreatePaymentPlan(req);
+            actionResult.Should().BeOfType<PaymentPlan>();
+            actionResult.Should().NotBeNull();
+
         }
+
+
+
 
     }
 }

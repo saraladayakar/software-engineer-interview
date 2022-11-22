@@ -37,8 +37,7 @@ namespace InstallmentServiceUnit
             controller = new InstallmentServiceController(mockFactory.Object, _log.Object);
 
             mockFactory = new Mock<IPlaymentPlanFactory>();
-           // mockupdateBL.Setup(m => m.Update(It.IsAny<UpdateRequest>())).Returns(new List<string>());
-
+           
             mockFactory.Setup(x => x.CreatePaymentPlan(It.IsAny<InstallServiceRequest>())).Returns((PaymentPlan)It.IsAny<object>());
                 
 
@@ -127,6 +126,26 @@ namespace InstallmentServiceUnit
             actualResponse.Errors.Count.Should().Be(1);
             actualResponse.Errors[0].title.Should().Be("Input Frequenty is entered");
         }
+
+
+        [TestMethod]
+        public void ReturnUnprocessibilityOnException()
+        {
+            PaymentPlan paymentPlant = new PaymentPlan();
+            paymentPlant = null;
+            mockFactory.Setup(x => x.CreatePaymentPlan(It.IsAny<InstallServiceRequest>())).Returns(paymentPlant);
+
+
+            var actionResult = controller.InstallmentService(req);
+            actionResult.Should().BeOfType<ObjectResult>();
+
+            var statusCode = (HttpStatusCode)((ObjectResult)actionResult).StatusCode;
+            statusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
+
+            
+        }
+
+
 
         [TestMethod]
         public void ReturnSuccess()

@@ -34,7 +34,6 @@ namespace Zip.InstallmentServices.Validation
                 case ValidationError.InvalidAmountError: return "Invalid Amount is entered";
                 case ValidationError.InvalidFreqeuncyError: return "Input Frequenty is entered";
                 case ValidationError.InvalidNoOfInstallmentError: return "Invalid Number of Installments";
-               ;
                 default: return string.Empty;
             }
         }
